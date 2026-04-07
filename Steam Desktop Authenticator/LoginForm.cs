@@ -258,10 +258,16 @@ namespace Steam_Desktop_Authenticator
 
             MessageBox.Show("The Mobile Authenticator has not yet been linked. Before finalizing the authenticator, please write down your revocation code: " + linker.LinkedAccount.RevocationCode);
 
+            var result2 = MessageBox.Show("Do you want to copy the revocation copy to clipboard?", "Revocation Code", MessageBoxButtons.YesNo);
+            if (result2 == DialogResult.Yes)
+            {
+                Clipboard.SetText(linker.LinkedAccount.RevocationCode);
+            }
+
             AuthenticatorLinker.FinalizeResult finalizeResponse = AuthenticatorLinker.FinalizeResult.GeneralFailure;
             while (finalizeResponse != AuthenticatorLinker.FinalizeResult.Success)
             {
-                InputForm smsCodeForm = new InputForm("Please input the SMS code sent to your phone.");
+                InputForm smsCodeForm = new InputForm("Please input the code sent to your email.");
                 smsCodeForm.ShowDialog();
                 if (smsCodeForm.Canceled)
                 {
